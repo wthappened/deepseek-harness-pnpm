@@ -1,0 +1,23 @@
+packages:
+  - .
+
+# dsh 的 cordis-plugin-loader 用裸 import() 加载插件，解析基准是 loader 自身
+# 所在的 node_modules 树。pnpm 默认的 isolated 布局下 loader 只能看到自己的
+# 直接依赖，兄弟插件包全部 ERR_MODULE_NOT_FOUND。hoisted 提供 dsh 假设的扁平布局。
+nodeLinker: hoisted
+
+# pnpm 11 起用 allowBuilds 统一取代 onlyBuiltDependencies / neverBuiltDependencies，
+# 放行需要编译/预编译二进制的原生模块。`pnpm approve-builds` 会写入这里。
+allowBuilds:
+  '@deepseek-ai/dsh-subprocess-local': true
+  '@google/genai': false
+  fs-ext: true
+  koffi: true
+  node-pty: true
+  protobufjs: false
+
+# 全局 minimumReleaseAge 会延迟安装“新发布不足 N 分钟”的包，dsh 的 rc 版太新会被
+# 拦下。用 org 通配符把 @deepseek-ai scope 下的所有包（dsh 及全部子包）整体豁免，
+# 这样每次升级 dsh 版本都不用再逐个列出。
+minimumReleaseAgeExclude:
+  - '@deepseek-ai/*'

@@ -1,0 +1,11 @@
+{
+  "name": "dsh-runtime",
+  "private": true,
+  "description": "pnpm hoisted runtime for @deepseek-ai/dsh",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.1.5-rc.2"
+  }
+}
